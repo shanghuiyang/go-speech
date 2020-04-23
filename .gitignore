@@ -5,8 +5,16 @@
 *.so
 *.dylib
 
+*.mac
+*.pi
+*.stg
+*.dev
+/tmp
+
+
 # Test binary, built with `go test -c`
 *.test
+.DS_store
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
