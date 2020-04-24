@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/shanghuiyang/go-speech/oauth"
 )
 
 const (
@@ -17,7 +19,7 @@ const (
 
 // Engine ...
 type Engine struct {
-	token string
+	auth *oauth.Oauth
 }
 
 type response struct {
@@ -61,15 +63,20 @@ func newRequest(token, speechFile string) (*request, error) {
 }
 
 // NewEngine ...
-func NewEngine(token string) *Engine {
+func NewEngine(auth *oauth.Oauth) *Engine {
 	return &Engine{
-		token: token,
+		auth: auth,
 	}
 }
 
 // ToText ...
 func (e *Engine) ToText(speechFile string) (string, error) {
-	req, err := newRequest(e.token, speechFile)
+	token, err := e.auth.GetToken()
+	if err != nil {
+		return "", err
+	}
+
+	req, err := newRequest(token, speechFile)
 	if err != nil {
 		return "", err
 	}
@@ -92,12 +99,12 @@ func (e *Engine) ToText(speechFile string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
 	var r response
-	err = json.Unmarshal(respBody, &r)
+	err = json.Unmarshal(body, &r)
 	if err != nil {
 		return "", err
 	}

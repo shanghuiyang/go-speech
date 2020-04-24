@@ -9,6 +9,7 @@
 *.pi
 *.stg
 *.dev
+/*.wav
 /tmp
 
 
