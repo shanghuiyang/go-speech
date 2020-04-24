@@ -1,4 +1,6 @@
 # go-speech
+[![Build Status](https://travis-ci.org/shanghuiyang/go-speech.svg?branch=master)](https://travis-ci.org/shanghuiyang/go-speech)
+
 go-speech is the SDK of ASR(Automatic Speech Recognition) and TTS(Text-to-Speech) based on Baidu API in pure Go
 
 ## Install
