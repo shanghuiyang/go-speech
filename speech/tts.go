@@ -1,4 +1,4 @@
-package tts
+package speech
 
 import (
 	"encoding/json"
@@ -14,28 +14,28 @@ const (
 	ttsURL = "http://tsn.baidu.com/text2audio"
 )
 
-// Engine ...
-type Engine struct {
+// TTS ...
+type TTS struct {
 	auth *oauth.Oauth
 }
 
-type response struct {
+type ttsResponse struct {
 	ErrNo  int    `json:"err_no"`
 	ErrMsg string `json:"err_msg"`
 	SN     string `json:"sn"`
 	Idx    int    `json:"idx"`
 }
 
-// NewEngine ...
-func NewEngine(auth *oauth.Oauth) *Engine {
-	return &Engine{
+// NewTTS ...
+func NewTTS(auth *oauth.Oauth) *TTS {
+	return &TTS{
 		auth: auth,
 	}
 }
 
 // ToSpeech ...
-func (e *Engine) ToSpeech(text string) ([]byte, error) {
-	token, err := e.auth.GetToken()
+func (t *TTS) ToSpeech(text string) ([]byte, error) {
+	token, err := t.auth.GetToken()
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (e *Engine) ToSpeech(text string) ([]byte, error) {
 		return body, nil
 	}
 
-	var errResp response
+	var errResp ttsResponse
 	if err := json.Unmarshal(body, &errResp); err != nil {
 		return nil, err
 	}

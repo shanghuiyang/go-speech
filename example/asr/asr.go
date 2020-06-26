@@ -5,13 +5,13 @@ import (
 	"log"
 	"os"
 
-	"github.com/shanghuiyang/go-speech/asr"
 	"github.com/shanghuiyang/go-speech/oauth"
+	"github.com/shanghuiyang/go-speech/speech"
 )
 
 const (
-	appKey    = "your app key"
-	secretKey = "your secret key"
+	appKey    = "your_app_key"
+	secretKey = "your_secret_key"
 )
 
 func main() {
@@ -23,8 +23,8 @@ func main() {
 	speechFile := os.Args[1]
 
 	auth := oauth.New(appKey, secretKey, oauth.NewCacheMan())
-	engine := asr.NewEngine(auth)
-	text, err := engine.ToText(speechFile)
+	asr := speech.NewASR(auth)
+	text, err := asr.ToText(speechFile)
 	if err != nil {
 		log.Printf("failed to recognize the speech, error: %v", err)
 		os.Exit(1)

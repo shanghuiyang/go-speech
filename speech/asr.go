@@ -1,4 +1,4 @@
-package asr
+package speech
 
 import (
 	"bytes"
@@ -14,22 +14,23 @@ import (
 )
 
 const (
-	asrURL = "http://vop.baidu.com/server_api"
+	asrURL    = "http://vop.baidu.com/server_api"
+	asrProURL = "https://vop.baidu.com/pro_api"
 )
 
-// Engine ...
-type Engine struct {
+// ASR ...
+type ASR struct {
 	auth *oauth.Oauth
 }
 
-type response struct {
+type asrResponse struct {
 	ErrNo  int      `json:"err_no"`
 	ErrMsg string   `json:"err_msg"`
 	SN     string   `json:"sn"`
 	Result []string `json:"result"`
 }
 
-type request struct {
+type asrRequest struct {
 	Format  string `json:"format"`
 	Rate    int    `json:"rate"`
 	Channel int    `json:"channel"`
@@ -37,9 +38,10 @@ type request struct {
 	Cuid    string `json:"cuid"`
 	Len     int    `json:"len"`
 	Speech  string `json:"speech"`
+	// DevPid  int    `json:"dev_pid"` // for pro api
 }
 
-func newRequest(token, speechFile string) (*request, error) {
+func newAsrRequest(token, speechFile string) (*asrRequest, error) {
 	file, err := os.Open(speechFile)
 	if err != nil {
 		return nil, err
@@ -51,7 +53,7 @@ func newRequest(token, speechFile string) (*request, error) {
 		return nil, err
 	}
 
-	return &request{
+	return &asrRequest{
 		Format:  "wav",
 		Rate:    16000,
 		Channel: 1,
@@ -59,24 +61,25 @@ func newRequest(token, speechFile string) (*request, error) {
 		Token:   token,
 		Len:     len(speech),
 		Speech:  base64.StdEncoding.EncodeToString(speech),
+		// DevPid:  80001,
 	}, nil
 }
 
-// NewEngine ...
-func NewEngine(auth *oauth.Oauth) *Engine {
-	return &Engine{
+// NewASR ...
+func NewASR(auth *oauth.Oauth) *ASR {
+	return &ASR{
 		auth: auth,
 	}
 }
 
 // ToText ...
-func (e *Engine) ToText(speechFile string) (string, error) {
-	token, err := e.auth.GetToken()
+func (a *ASR) ToText(speechFile string) (string, error) {
+	token, err := a.auth.GetToken()
 	if err != nil {
 		return "", err
 	}
 
-	req, err := newRequest(token, speechFile)
+	req, err := newAsrRequest(token, speechFile)
 	if err != nil {
 		return "", err
 	}
@@ -103,7 +106,7 @@ func (e *Engine) ToText(speechFile string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	var r response
+	var r asrResponse
 	err = json.Unmarshal(body, &r)
 	if err != nil {
 		return "", err

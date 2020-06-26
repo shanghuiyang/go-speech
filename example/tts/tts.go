@@ -7,12 +7,12 @@ import (
 	"os"
 
 	"github.com/shanghuiyang/go-speech/oauth"
-	"github.com/shanghuiyang/go-speech/tts"
+	"github.com/shanghuiyang/go-speech/speech"
 )
 
 const (
-	appKey    = "your app key"
-	secretKey = "your secret key"
+	appKey    = "your_app_key"
+	secretKey = "your_secret_key"
 )
 
 func main() {
@@ -24,8 +24,8 @@ func main() {
 	text := os.Args[1]
 
 	auth := oauth.New(appKey, secretKey, oauth.NewCacheMan())
-	engine := tts.NewEngine(auth)
-	data, err := engine.ToSpeech(text)
+	tts := speech.NewTTS(auth)
+	data, err := tts.ToSpeech(text)
 	if err != nil {
 		log.Printf("failed to convert text to speech, error: %v", err)
 		os.Exit(1)

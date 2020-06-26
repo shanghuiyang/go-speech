@@ -11,6 +11,8 @@
 *.dev
 /*.wav
 /tmp
+/asr
+/tts
 
 
 # Test binary, built with `go test -c`
