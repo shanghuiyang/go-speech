@@ -46,6 +46,7 @@ func (t *TTS) ToSpeech(text string) ([]byte, error) {
 		"tok":  {token},
 		"ctp":  {"1"},
 		"cuid": {"go-speech"},
+		"aue":  {"6"}, // wav
 	}
 	resp, err := http.PostForm(ttsURL, formData)
 	if err != nil {
@@ -59,7 +60,7 @@ func (t *TTS) ToSpeech(text string) ([]byte, error) {
 	}
 
 	contentType := resp.Header.Get("Content-type")
-	if contentType == "audio/mp3" {
+	if contentType == "audio/wav" {
 		return body, nil
 	}
 
