@@ -30,6 +30,6 @@ func (c *CacheMan) SetToken(token string, expiresIn int64) error {
 
 // IsValid ...
 func (c *CacheMan) IsValid() bool {
-	sub := time.Now().Sub(c.expireAt)
+	sub := c.expireAt.Sub(time.Now())
 	return sub.Seconds() > 10
 }
