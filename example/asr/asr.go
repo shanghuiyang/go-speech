@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	appKey    = "your_app_key"
-	secretKey = "your_secret_key"
+	baiduSpeechAPIKey    = "your_baidu_speech_api_key"
+	baiduSpeechSecretKey = "your_baidu_speech_secret_key"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 	}
 	speechFile := os.Args[1]
 
-	auth := oauth.New(appKey, secretKey, oauth.NewCacheMan())
+	auth := oauth.New(baiduSpeechAPIKey, baiduSpeechSecretKey, oauth.NewCacheMan())
 	asr := speech.NewASR(auth)
 	text, err := asr.ToText(speechFile)
 	if err != nil {

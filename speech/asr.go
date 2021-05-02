@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/shanghuiyang/go-speech/oauth"
 )
@@ -96,7 +97,10 @@ func (a *ASR) ToText(speechFile string) (string, error) {
 
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Content-Length", fmt.Sprintf("%d", len(reqData)))
-	resp, err := http.DefaultClient.Do(request)
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+	resp, err := client.Do(request)
 	if err != nil {
 		return "", err
 	}
