@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	appKey    = "your_app_key"
-	secretKey = "your_secret_key"
+	baiduSpeechAPIKey    = "your_baidu_speech_api_key"
+	baiduSpeechSecretKey = "your_baidu_speech_secret_key"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 	}
 	text := os.Args[1]
 
-	auth := oauth.New(appKey, secretKey, oauth.NewCacheMan())
+	auth := oauth.New(baiduSpeechAPIKey, baiduSpeechSecretKey, oauth.NewCacheMan())
 	tts := speech.NewTTS(auth)
 	data, err := tts.ToSpeech(text)
 	if err != nil {

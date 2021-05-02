@@ -9,7 +9,7 @@ go get -u github.com/shanghuiyang/go-speech
 ```
 
 ## Usage
-Suppose that you have had the `AppKey` and `SecretKey` from the [Baidu AI Platform](https://ai.baidu.com)
+Suppose that you have had the `APIKey` and `SecretKey` from the [Baidu AI Platform](https://ai.baidu.com)
 
 ### [ASR](/example/asr)
 convert speech to text
@@ -26,12 +26,12 @@ import (
 )
 
 const (
-	appKey    = "your app key"
+	apiKey    = "your api key"
 	secretKey = "your secret key"
 )
 
 func main() {
-	auth := oauth.New(appKey, secretKey, oauth.NewCacheMan())
+	auth := oauth.New(apiKey, secretKey, oauth.NewCacheMan())
 	engine := asr.NewEngine(auth)
 	text, err := engine.ToText("sample.wav")
 	if err != nil {
@@ -58,12 +58,12 @@ import (
 )
 
 const (
-	appKey    = "your app key"
+	apiKey    = "your api key"
 	secretKey = "your secret key"
 )
 
 func main() {
-	auth := oauth.New(appKey, secretKey, oauth.NewCacheMan())
+	auth := oauth.New(apiKey, secretKey, oauth.NewCacheMan())
 	engine := tts.NewEngine(auth)
 	data, err := engine.ToSpeech("中国北京")
 	if err != nil {
